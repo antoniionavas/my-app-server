@@ -1,10 +1,11 @@
 const { Schema, model } = require("mongoose");
 const musicGenre = require("../utils/musicGenre");
+const mongoose = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
-    name: {
+    username: {
       type: String,
       required: [true, 'Name is required.'],
       unique: true,

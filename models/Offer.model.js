@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const musicGenre = require("../utils/musicGenre");
+const mongoose = require("mongoose");
 
 const offerSchema = new Schema({
     band: {
