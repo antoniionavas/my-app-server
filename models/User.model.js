@@ -32,7 +32,7 @@ const userSchema = new Schema(
       enum: musicGenre,
     },
     profileImg: {
-      type: [String],
+      type: String,
       default: "public/default-profile.jpg"
     },
     dateborn: {
@@ -43,7 +43,7 @@ const userSchema = new Schema(
       required: [true, 'City is required.']
     },
     offerType: {
-      type: String,
+      type: [String],
       enum: offerType,
     },
     bandFav: [
