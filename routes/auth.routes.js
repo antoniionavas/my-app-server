@@ -7,12 +7,13 @@ const isAuthenticated = require("../middlewares/isAuthenticated")
 //POST "/api/auth/signup" => registrar el usuario
 router.post("/signup", async (req,res,next) => {
 
-        let confirmPassword
         console.log("body",req.body)
+        
         const {
             username, 
             email, 
             password, 
+            confirmPassword,
             genre, 
             dateborn, 
             city, 
@@ -21,7 +22,7 @@ router.post("/signup", async (req,res,next) => {
 
          //VALIDACIONES 
         //validar todos los campos llenos
-        if (!username || !email || !password || !genre || !dateborn || !city ) {
+        if (!username || !email || !password || !confirmPassword || !genre || !dateborn || !city || !offerType) {
             res
             .status(404)
             .json({ errorMessage: "Todos los campos deben estar llenos" });
@@ -73,9 +74,7 @@ router.post("/signup", async (req,res,next) => {
         //ciframos contraseña
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
-        const hashPassword2 = await bcrypt.hash(confirmPassword, salt);
         console.log(hashPassword)
-        console.log(hashPassword2)
 
         //crear usuario 
         await User.create({
@@ -85,9 +84,7 @@ router.post("/signup", async (req,res,next) => {
             genre: genre,
             city: city, 
             dateborn: dateborn, 
-            profileImg: profileImg,
             offerType: offerType,
-            confirmPassword: hashPassword2,
         })
         res.redirect("/auth/login");
     }     
