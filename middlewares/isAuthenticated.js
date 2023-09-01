@@ -14,7 +14,6 @@ const isAuthenticated = jwt({
         }
 
         const tokenArr = req.headers.authorization.split(" ")
-        // const [tokenType, token] = tokenArr
         const tokenType = tokenArr[0]
         const token = tokenArr[1]
 
