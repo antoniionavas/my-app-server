@@ -4,11 +4,12 @@ const User = require ("../models/User.model")
 const jwt = require("jsonwebtoken")
 const isAuthenticated = require("../middlewares/isAuthenticated")
 
+
 //POST "/api/auth/signup" => registrar el usuario
 router.post("/signup", async (req,res,next) => {
 
         console.log("body",req.body)
-        
+        const profileImg = "https://res.cloudinary.com/dzesrymee/image/upload/v1693588315/default-profile_ftagxc.jpg"
         const {
             username, 
             email, 
@@ -85,6 +86,7 @@ router.post("/signup", async (req,res,next) => {
             city: city, 
             dateborn: dateborn, 
             offerType: offerType,
+            profileImg: profileImg
         })
     }     
     catch (error) {
@@ -138,10 +140,10 @@ router.post("/login", async (req,res,next) => {
     }
 })
 
+//GET "/api/auth/verify" => indica al frontend que el usuario está activo 
 router.get("/verify", isAuthenticated, (req,res,next) => {
     console.log(req.payload)
     res.json(req.payload)
 })
-
 
 module.exports = router;

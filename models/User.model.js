@@ -33,7 +33,6 @@ const userSchema = new Schema(
     },
     profileImg: {
       type: String,
-      default: "public/default-profile.jpg"
     },
     dateborn: {
       type: Date,
