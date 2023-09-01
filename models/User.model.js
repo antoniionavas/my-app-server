@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const musicGenre = require("../utils/musicGenre");
+const offerType = require("../utils/offerType");
 const mongoose = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
@@ -41,7 +42,8 @@ const userSchema = new Schema(
       required: [true, 'City is required.']
     },
     offerType: {
-      type: [],
+      type: String,
+      enum: offerType,
     },
     bandFav: [
       {

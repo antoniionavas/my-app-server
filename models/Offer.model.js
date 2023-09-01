@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const musicGenre = require("../utils/musicGenre");
+const offerType = require("../utils/offerType");
 const mongoose = require("mongoose");
 
 const offerSchema = new Schema({
@@ -20,7 +21,8 @@ const offerSchema = new Schema({
       required: [true, 'Salary is required']
     },
     offerType: {
-        type: [],
+        type: String,
+        enum: offerType
     },
     initialDate: {
       type: Date,
