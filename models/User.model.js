@@ -28,11 +28,11 @@ const userSchema = new Schema(
       default: "user",
     },
     genre: {
-      type: String,
+      type: [String],
       enum: musicGenre,
     },
     profileImg: {
-      type: String,
+      type: [String],
       default: "public/default-profile.jpg"
     },
     dateborn: {

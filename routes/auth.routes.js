@@ -86,7 +86,6 @@ router.post("/signup", async (req,res,next) => {
             dateborn: dateborn, 
             offerType: offerType,
         })
-        res.redirect("/auth/login");
     }     
     catch (error) {
         next(error)
@@ -100,7 +99,6 @@ router.post("/login", async (req,res,next) => {
     console.log(req.body)
 
     //VALIDACIONES  
-
     try {
         // que exista el usuario
         const foundUser = await User.findOne({email})
