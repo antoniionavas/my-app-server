@@ -17,6 +17,7 @@ router.post("/", async (req,res,next) => {
     try {
         console.log(req.body)
         await Offer.create({
+            title: req.body.title,
             genre: req.body.genre,
             description: req.body.description,
             salary: req.body.salary,
@@ -63,10 +64,11 @@ router.put("/:offerId", async (req, res, next) => {
     console.log(req.params)
 
     const {offerId} = req.params
-    const {genre, description, salary, offerType, initialDate, finalDate} = req.body
+    const {title, genre, description, salary, offerType, initialDate, finalDate} = req.body
     
     try {
         await Offer.findByIdAndUpdate(offerId, {
+        title,
         genre, 
         description,
         salary,

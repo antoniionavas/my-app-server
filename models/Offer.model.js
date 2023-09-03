@@ -8,6 +8,10 @@ const offerSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Band",
     },
+    title:{
+      type: String,
+      required: [true, 'Title is required.'],
+    },
     description: {
       type: String,
       required: [true, 'Description is required.'],
