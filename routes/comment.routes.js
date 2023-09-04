@@ -61,10 +61,12 @@ router.delete(
         const thisUser = await User.findById(req.params.userId);
         console.log("id del usuario que posee el comentario", thisUser)
         const oneComment = await Comment.findByIdAndDelete(req.params.commentId);
-        console.log("comentario borrado", oneComment);
+        console.log("comentario a borrar", oneComment);
+        res.json("comentario eliminado")
       } catch (error) {
         next(error);
       }
     }
     );
-    
+
+module.exports = router;

@@ -88,6 +88,7 @@ router.post("/signup", async (req,res,next) => {
             offerType: offerType,
             profileImg: profileImg
         })
+        res.json("usuario creado")
     }     
     catch (error) {
         next(error)

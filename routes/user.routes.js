@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User.model")
+const isAuthenticated = require("../middlewares/isAuthenticated")
 
 //GET /api/user/list-users => listamos todo los usuarios de nuestra web
 router.get("/list-users", async (req, res, next) => {
@@ -13,22 +14,20 @@ router.get("/list-users", async (req, res, next) => {
     }
 });
 
-//GET "/api/user/:userId" => envia los detalles de un usuario por su id
-router.get("/:userId", async (req, res, next) => {
-
+//GET "/api/user/my-profile" => envia los detalles de un usuario por su id
+router.get("/my-profile", isAuthenticated, async (req, res, next) => {
     try {
-      const response = await User.findById(req.params.userId)
+      const response = await User.findById(req.payload._id)
        res.json(response)
     }
     
     catch (error) {
         next(error)
     }
-
 })
 
-//DELETE "/api/user/:userId" => borrar usuario por su id
-router.delete("/:userId", async (req, res, next) => {
+//DELETE "/api/user/auto-delete" => borrar usuario por su id
+router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
     const {userId} = req.params
     try {
         await User.findByIdAndDelete(userId)
@@ -39,8 +38,8 @@ router.delete("/:userId", async (req, res, next) => {
     }
 })
 
-//PUT "/api/user/:userId" => actualizar toda la info de un usuario
-router.put("/:userId", async (req, res, next) => {
+//PUT "/api/user/edituser" => actualizar toda la info de un usuario
+router.put("/edit-user", isAuthenticated, async (req, res, next) => {
     console.log(req.body)
     console.log(req.params)
     //falta la img con cloudinary
@@ -74,7 +73,7 @@ router.put("/:userId", async (req, res, next) => {
     }
 })
 
-
+module.exports = router;
 
 
 
