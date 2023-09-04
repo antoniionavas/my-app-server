@@ -36,7 +36,7 @@ router.post("/:userId", async (req, res, next) => {
         user: thisUser,
         date: currentDate,
       });
-      console.log("nuevo comentario", newCommment);
+      res.json("nuevo comentario", newCommment);
     } catch (error) {
       next(error);
     }

@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const User = require("../models/User.model")
-const isAuthenticated = require("../middlewares/isAuthenticated")
+const User = require("../models/User.model");
+const isAuthenticated = require("../middlewares/isAuthenticated");
+const uploader = require("../middlewares/cloudinary.js");
 
 //GET /api/user/list-users => listamos todo los usuarios de nuestra web
 router.get("/list-users", async (req, res, next) => {
@@ -39,30 +40,43 @@ router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
 })
 
 //PUT "/api/user/update" => actualizar toda la info de un usuario
-router.put("/update", isAuthenticated, async (req, res, next) => {
+router.put("/update", isAuthenticated, uploader.single("profileImg"), async (req, res, next) => {
     console.log(req.body)
-    //falta la img con cloudinary
-    const userId = req.payload._id
+    const userId = req.payload._id;
+
     const { 
         username, 
         email, 
         password, 
         confirmPassword,
-        genre, 
-        dateborn, 
+        genre,
+        dateborn,
+        profileImg, 
         city,
         offerType,} = req.body
     
     try {
+        let datebornToUpdate = dateborn;
+        let profileImgUpdate = req.body.profileImg;
+
+        //condicional que si no introduces fecha nueva no actualiza y deja la anterior
+        if (!dateborn) {
+            datebornToUpdate = dateborn;
+        }
+        //condicional que si no introduces foto nueva no actualiza y deja la anterior
+        if (!req.file) {
+            profileImgUpdate = profileImg;
+        }
+
         await User.findByIdAndUpdate(userId, {
         username, 
         email, 
         password, 
         confirmPassword,
         genre, 
-        dateborn, 
+        dateborn: datebornToUpdate, 
         city,
-        profileImg, 
+        profileImg: profileImgUpdate, 
         offerType,
         })
         res.json("usuario actualizado", userId)
