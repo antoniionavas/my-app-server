@@ -28,7 +28,7 @@ router.get("/my-profile", isAuthenticated, async (req, res, next) => {
 
 //DELETE "/api/user/auto-delete" => borrar usuario por su id
 router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
-    const {userId} = req.params
+    const userId = req.payload._id
     try {
         await User.findByIdAndDelete(userId)
         res.json("el usuario ha sido borrado", userId)
@@ -38,12 +38,11 @@ router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
     }
 })
 
-//PUT "/api/user/edituser" => actualizar toda la info de un usuario
-router.put("/edit-user", isAuthenticated, async (req, res, next) => {
+//PUT "/api/user/update" => actualizar toda la info de un usuario
+router.put("/update", isAuthenticated, async (req, res, next) => {
     console.log(req.body)
-    console.log(req.params)
     //falta la img con cloudinary
-    const {userId} = req.params
+    const userId = req.payload._id
     const { 
         username, 
         email, 
