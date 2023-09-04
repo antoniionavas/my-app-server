@@ -32,7 +32,7 @@ router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
     const userId = req.payload._id
     try {
         await User.findByIdAndDelete(userId)
-        res.json("el usuario ha sido borrado", userId)
+        res.json("el usuario ha sido borrado")
 
     }  catch (error) {
        next(error)
@@ -46,45 +46,47 @@ router.put("/update", isAuthenticated, uploader.single("profileImg"), async (req
 
     const { 
         username, 
-        email, 
-        password, 
-        confirmPassword,
         genre,
         dateborn,
-        profileImg, 
         city,
+        profileImg,
         offerType,} = req.body
     
     try {
+        
+        const defaultImg = await User.findById(userId).profileImg;
+       
         let datebornToUpdate = dateborn;
-        let profileImgUpdate = req.body.profileImg;
+        let profileImgUpdate
+
 
         //condicional que si no introduces fecha nueva no actualiza y deja la anterior
         if (!dateborn) {
             datebornToUpdate = dateborn;
         }
         //condicional que si no introduces foto nueva no actualiza y deja la anterior
-        if (!req.file) {
-            profileImgUpdate = profileImg;
-        }
-
+        // if (req.file) {
+        //     profileImgUpdate = req.file.path;
+        // }
+        //  else { profileImgUpdate = defaultImg}
+        
+    
         await User.findByIdAndUpdate(userId, {
         username, 
-        email, 
-        password, 
-        confirmPassword,
         genre, 
         dateborn: datebornToUpdate, 
         city,
-        profileImg: profileImgUpdate, 
+        profileImg, 
         offerType,
         })
-        res.json("usuario actualizado", userId)
+        res.json("usuario actualizado")
 
     }  catch (error) {
        next(error)
     }
 })
+
+
 
 module.exports = router;
 

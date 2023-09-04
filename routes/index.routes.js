@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const uploader = require("../middlewares/cloudinary.js");
 
 
 router.get("/", (req, res, next) => {
@@ -19,6 +20,18 @@ router.use("/offer", offerRouter);
 
 const commentRouter = require("./comment.routes.js");
 router.use("/comment", commentRouter);
+
+
+// POST "/api/upload"
+router.post("/upload", uploader.single("image"), (req, res, next) => {
+
+  if (!req.file) {
+    next("No file uploaded!");
+    return;
+  }
+
+  res.json({ profileImg: req.file.path });
+});
 
 
 module.exports = router;
