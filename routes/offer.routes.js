@@ -6,7 +6,8 @@ const Band = require("../models/Band.model")
 router.get("/", async (req,res,next) => {
     try {
         const allOffers = await Offer.find()
-        res.json("Mostrando todas las ofertas disponibles",allOffers)
+        console.log("Mostrando todas las ofertas disponibles")
+        res.json(allOffers)
     } 
     catch (error) {
         next(error)

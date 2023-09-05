@@ -6,11 +6,10 @@ const uploader = require("../middlewares/cloudinary.js");
 //GET /api/user/list-users => listamos todo los usuarios de nuestra web
 router.get("/list-users", async (req, res, next) => {
     try {
-      const allUsers = await User.find({ role: "user" });
+      const allUsers = await User.find( { role: "user" });
       console.log("lista de usuarios mostrada")
       res.json(allUsers)
     } 
-    
     catch (error) {
       next(error);
     }

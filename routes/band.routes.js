@@ -61,6 +61,7 @@ router.put("/:bandId/edit", async (req, res, next) => {
     console.log(req.body)
     console.log(req.params)
     const {bandId} = req.params
+    console.log("el id de la banda es",req.params.bandId)
     const {name, genre, city, foundationDate} = req.body
     
     try {
