@@ -7,7 +7,8 @@ const uploader = require("../middlewares/cloudinary.js");
 router.get("/list-users", async (req, res, next) => {
     try {
       const allUsers = await User.find({ role: "user" });
-      res.json("lista de usuarios mostrada", allUsers)
+      console.log("lista de usuarios mostrada")
+      res.json(allUsers)
     } 
     
     catch (error) {

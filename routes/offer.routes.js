@@ -14,7 +14,7 @@ router.get("/", async (req,res,next) => {
 })
 
 //POST "/api/offer" => recibir datos para crear una nueva oferta
-router.post("/create/", async (req,res,next) => {
+router.post("/create", async (req,res,next) => {
     try {
         console.log(req.body)
         const currentDate = new Date().getTime();

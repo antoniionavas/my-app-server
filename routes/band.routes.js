@@ -6,9 +6,9 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 router.get("/", async (req,res,next) => {
     try {
         const allBands = await Band.find()
-        res.json("mostrando todas las bandas",allBands)
+        console.log("todas las bandas")
+        res.json(allBands)
     } 
-    
     catch (error) {
         next(error)
     }
@@ -16,31 +16,30 @@ router.get("/", async (req,res,next) => {
 
 //POST "/api/band" => recibir datos para crear una nueva banda
 router.post("/create", isAuthenticated, async (req,res,next) => {
-
     try {
         console.log(req.body)
-        await Band.create({
+        const response = await Band.create({
             name: req.body.name,
             genre: req.body.genre,
             city: req.body.city,
             owner: req.payload._id,
             foundationDate: req.body.foundationDate
         })
-        res.json("la nueva banda ha sido creada")
+        console.log("La nueva banda ha sido creada")
+        res.json(response)
     } 
-    
     catch (error) {
         next(error)
     }
 })
 
 //GET "/api/band/:bandId" => envia los detalles de una banda por su id
-router.get("/:bandId", async (req, res, next) => {
+router.get("/:bandId/details", async (req, res, next) => {
     try {
       const bandDetails = await Band.findById(req.params.bandId)
-       res.json("detalles de una banda", bandDetails)
+       res.json(bandDetails)
+       console.log("detalles de una banda")
     }
-    
     catch (error) {
         next(error)
     }
@@ -52,15 +51,13 @@ router.delete("/:bandId", async (req, res, next) => {
     try {
         await Band.findByIdAndDelete(bandId)
         res.json("banda eliminada")
-
     }  catch (error) {
        next(error)
     }
-
 })
 
 //PUT "/api/band/:bandId" => actualizar toda la info de una banda
-router.put("/:bandId", async (req, res, next) => {
+router.put("/:bandId/edit", async (req, res, next) => {
     console.log(req.body)
     console.log(req.params)
     const {bandId} = req.params
@@ -73,12 +70,12 @@ router.put("/:bandId", async (req, res, next) => {
         city,
         foundationDate
         })
+        console.log(bandId)
         res.json("los datos de la Banda han sido actualizados")
 
     }  catch (error) {
        next(error)
     }
-
 })
 
 module.exports = router;
