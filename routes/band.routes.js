@@ -23,7 +23,7 @@ router.post("/create", isAuthenticated, async (req,res,next) => {
             name: req.body.name,
             genre: req.body.genre,
             city: req.body.city,
-            owner: req.payload.id,
+            owner: req.payload._id,
             foundationDate: req.body.foundationDate
         })
         res.json("la nueva banda ha sido creada")
