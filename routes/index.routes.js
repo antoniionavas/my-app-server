@@ -22,7 +22,7 @@ const commentRouter = require("./comment.routes.js");
 router.use("/comment", commentRouter);
 
 
-// POST "/api/upload"
+// POST "/api/upload" => ruta que sube la img de perfil del usuario al cloudinary
 router.post("/upload", uploader.single("image"), (req, res, next) => {
 
   if (!req.file) {

@@ -53,23 +53,14 @@ router.put("/update", isAuthenticated, uploader.single("profileImg"), async (req
         offerType,} = req.body
     
     try {
-        
-        const defaultImg = await User.findById(userId).profileImg;
        
         let datebornToUpdate = dateborn;
-        let profileImgUpdate
-
-
+       
         //condicional que si no introduces fecha nueva no actualiza y deja la anterior
         if (!dateborn) {
             datebornToUpdate = dateborn;
         }
-        //condicional que si no introduces foto nueva no actualiza y deja la anterior
-        // if (req.file) {
-        //     profileImgUpdate = req.file.path;
-        // }
-        //  else { profileImgUpdate = defaultImg}
-        
+            
     
         await User.findByIdAndUpdate(userId, {
         username, 

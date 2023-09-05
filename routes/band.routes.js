@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Band = require("../models/Band.model")
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 //GET "/api/band" => mostrar todas las bandas
 router.get("/", async (req,res,next) => {
@@ -14,13 +15,15 @@ router.get("/", async (req,res,next) => {
 })
 
 //POST "/api/band" => recibir datos para crear una nueva banda
-router.post("/", async (req,res,next) => {
+router.post("/create", isAuthenticated, async (req,res,next) => {
+
     try {
         console.log(req.body)
         await Band.create({
             name: req.body.name,
             genre: req.body.genre,
             city: req.body.city,
+            owner: req.payload.id,
             foundationDate: req.body.foundationDate
         })
         res.json("la nueva banda ha sido creada")

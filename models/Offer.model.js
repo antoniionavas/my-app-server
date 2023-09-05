@@ -17,7 +17,7 @@ const offerSchema = new Schema({
       required: [true, 'Description is required.'],
     },
     genre: {
-      type: String,
+      type: [String],
       enum: musicGenre,
     },
     salary: {
@@ -25,7 +25,7 @@ const offerSchema = new Schema({
       required: [true, 'Salary is required']
     },
     offerType: {
-        type: String,
+        type: [String],
         enum: offerType
     },
     initialDate: {

@@ -13,7 +13,7 @@ const bandSchema = new Schema({
       ref: "User",
     },
     genre: {
-        type: String,
+        type: [String],
         enum: musicGenre,
       },
     owner: {
