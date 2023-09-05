@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Offer = require("../models/Offer.model")
+const Band = require("../models/Band.model")
 
 //GET "/api/offer" => mostrar todas las ofertas
 router.get("/", async (req,res,next) => {
@@ -13,19 +14,24 @@ router.get("/", async (req,res,next) => {
 })
 
 //POST "/api/offer" => recibir datos para crear una nueva oferta
-router.post("/", async (req,res,next) => {
+router.post("/create/", async (req,res,next) => {
     try {
         console.log(req.body)
-        await Offer.create({
+        const currentDate = new Date().getTime();
+        console.log(currentDate)
+        const thisBand = await Band.findById(req.params._id);
+        const response = await Offer.create({
+            band: thisBand,
             title: req.body.title,
             genre: req.body.genre,
             description: req.body.description,
             salary: req.body.salary,
             offerType: req.body.offerType,
-            initialDate: req.body.initialDate,
+            initialDate: currentDate,
             finalDate: req.body.finalDate,
         })
         res.json("nueva oferta creada")
+        console.log("esta es mi oferta creada",response)
     } 
     
     catch (error) {
