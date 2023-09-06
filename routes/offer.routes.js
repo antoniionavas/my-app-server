@@ -31,8 +31,8 @@ router.post("/create", async (req,res,next) => {
             initialDate: currentDate,
             finalDate: req.body.finalDate,
         })
-        res.json("nueva oferta creada")
-        console.log("esta es mi oferta creada",response)
+        res.json(response)
+        console.log("esta es mi oferta creada")
     } 
     
     catch (error) {
@@ -40,8 +40,8 @@ router.post("/create", async (req,res,next) => {
     }
 })
 
-//GET "/api/offer/:offerId" => envia los detalles de una oferta por su id
-router.get("/:offerId", async (req, res, next) => {
+//GET "/api/offer/:offerId/details" => envia los detalles de una oferta por su id
+router.get("/:offerId/details", async (req, res, next) => {
     try {
       const response = await Offer.findById(req.params.offerId)
       res.json(response)

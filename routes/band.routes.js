@@ -33,7 +33,7 @@ router.post("/create", isAuthenticated, async (req,res,next) => {
     }
 })
 
-//GET "/api/band/:bandId" => envia los detalles de una banda por su id
+//GET "/api/band/:bandId/details" => envia los detalles de una banda por su id
 router.get("/:bandId/details", async (req, res, next) => {
     try {
       const bandDetails = await Band.findById(req.params.bandId)
