@@ -19,7 +19,7 @@ router.get("/list-users", async (req, res, next) => {
 //GET "/api/user/my-profile" => envia los detalles de un usuario por su id
 router.get("/my-profile", isAuthenticated, async (req, res, next) => {
     try {
-      const response = await User.findById(req.payload._id)
+      const response = await User.findById(req.payload._id).populate("bandFav")
        res.json(response)
     }
     
@@ -28,11 +28,10 @@ router.get("/my-profile", isAuthenticated, async (req, res, next) => {
     }
 })
 
-//DELETE "/api/user/auto-delete" => borrar usuario por su id
-router.delete("/auto-delete", isAuthenticated, async (req, res, next) => {
-    const userId = req.payload._id
+//DELETE "/api/user/delete/:userId" => borrar usuario por su id
+router.delete("/delete/:userId", isAuthenticated, async (req, res, next) => {
     try {
-        await User.findByIdAndDelete(userId)
+        await User.findByIdAndDelete(req.params.userId)
         res.json("el usuario ha sido borrado")
 
     }  catch (error) {
@@ -101,8 +100,8 @@ router.post("/:bandId/fav", isAuthenticated, async (req, res, next) => {
     }
   });
   
-  //POST /user/:bandId/fav => Eliminamos la banda de favoritas de la base de datos los lugares
-  router.post("/:bandId/delete", isAuthenticated, async (req, res, next) => {
+//POST /user/:bandId/fav => Eliminamos la banda de favoritas de la base de datos los lugares
+router.post("/:bandId/delete", isAuthenticated, async (req, res, next) => {
     try {
       const oneBand = await Band.findById(req.params.bandId);
       const deleteBandFav = await User.findByIdAndUpdate(req.payload._id, {

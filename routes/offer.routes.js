@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Offer = require("../models/Offer.model")
 const Band = require("../models/Band.model")
+const User = require("../models/User.model")
+const isAuthenticated = require("../middlewares/isAuthenticated");
 
 //GET "/api/offer" => mostrar todas las ofertas
 router.get("/", async (req,res,next) => {
@@ -20,7 +22,7 @@ router.post("/create", async (req,res,next) => {
         console.log(req.body)
         const currentDate = new Date().getTime();
         console.log(currentDate)
-        const thisBand = await Band.findById(req.params._id);
+        const thisBand = await Band.findById(req.params.bandId);
         const response = await Offer.create({
             band: thisBand,
             title: req.body.title,
@@ -43,7 +45,7 @@ router.post("/create", async (req,res,next) => {
 //GET "/api/offer/:offerId/details" => envia los detalles de una oferta por su id
 router.get("/:offerId/details", async (req, res, next) => {
     try {
-      const response = await Offer.findById(req.params.offerId)
+      const response = await Offer.findById(req.params.offerId).populate("band")
       res.json(response)
     }
     
@@ -89,5 +91,44 @@ router.put("/:offerId", async (req, res, next) => {
        next(error)
     }
 })
+
+//POST /offer/:offerId/subscribers => Añadimos user a suscriptores de la oferta
+router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => {
+    try {
+      const oneOffer = await Offer.findById(req.params.offerId);
+      const user = await User.findById(req.payload._id);
+  
+      if (oneOffer.subscribers.includes(user)) {
+        await Offer.findByIdAndUpdate(req.params.offerId, {
+          $pull: { subscribers: user },
+        });
+      } else {
+        await Offer.findByIdAndUpdate(req.params.offerId, {
+          $addToSet: { subscribers: user },
+        });
+      }
+      console.log("la oferta",oneOffer)
+      console.log("user", user)
+      res.json("El usuario se ha inscrito a la oferta")
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+//POST /offer/:offerId/subscribers => Eliminamos  user a suscriptores de la oferta
+router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => {
+    try {
+      const oneUser = await User.findById(req.payload._id);
+      const deleteSubscriber = await Offer.findByIdAndUpdate(req.params.offerId, {
+        $pull: { subscribers: req.payload._id },
+      });
+      console.log("id de la oferta",req.params.offerId)
+      console.log(deleteSubscriber)
+      res.json("El usuario se ha eliminado de la oferta")
+    } catch (error) {
+      next(error);
+    }
+  });
+
 
 module.exports = router;
