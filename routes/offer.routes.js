@@ -17,14 +17,13 @@ router.get("/", async (req,res,next) => {
 })
 
 //POST "/api/offer" => recibir datos para crear una nueva oferta
-router.post("/create", async (req,res,next) => {
+router.post("/:bandId/details/createOffer", async (req,res,next) => {
     try {
         console.log(req.body)
         const currentDate = new Date().getTime();
         console.log(currentDate)
-        const thisBand = await Band.findById(req.params.bandId);
         const response = await Offer.create({
-            band: thisBand,
+            band: req.params.bandId,
             title: req.body.title,
             genre: req.body.genre,
             description: req.body.description,
