@@ -91,7 +91,7 @@ router.put("/:offerId", async (req, res, next) => {
     }
 })
 
-//POST /offer/:offerId/subscribers => Añadimos user a suscriptores de la oferta
+//POST /offer/:offerId/subscribers => Añadimos user de suscriptores de la oferta
 router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => {
     try {
       const oneOffer = await Offer.findById(req.params.offerId);
@@ -114,8 +114,8 @@ router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => 
     }
   });
   
-//POST /offer/:offerId/subscribers => Eliminamos  user a suscriptores de la oferta
-router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => {
+//POST /offer/:offerId/subscribers => Elimino user de suscriptores de la oferta
+router.post("/:offerId/subscribers/delete", isAuthenticated, async (req, res, next) => {
     try {
       const oneUser = await User.findById(req.payload._id);
       const deleteSubscriber = await Offer.findByIdAndUpdate(req.params.offerId, {
@@ -128,6 +128,7 @@ router.post("/:offerId/subscribers", isAuthenticated, async (req, res, next) => 
       next(error);
     }
   });
+
 
 
 module.exports = router;
