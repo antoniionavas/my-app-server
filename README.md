@@ -164,6 +164,8 @@ Aquí muestro una imagen con mi planificación inicial de rutas, a lo largo del 
 
 - [Enlace repositorio server](https://github.com/antoniionavas/my-app-server.git)
 
+- [Enlace Deploy](https://infomusicjob.netlify.app/)
+
 ## Trello
 
 - [Tablero Trello](https://trello.com/b/gf88plk2/tasks)
